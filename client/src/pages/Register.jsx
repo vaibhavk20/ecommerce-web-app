@@ -3,32 +3,80 @@ import {
   Input,
   FormControl,
   FormLabel,
-  Button,
   Heading,
+  VStack,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 
 const Register = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    console.log(name, email, password, phone, address);
+  };
+
   return (
-    <Box w={"40%"} m={"auto"} alignItems={"center"} px={20}>
+    <Box
+      w={{ sm: "100%", md: "60%", lg: "40%" }}
+      m={"auto"}
+      alignItems={"center"}
+      px={20}
+    >
       <Heading my={5}>Register</Heading>
-      <FormControl gap={2}>
-        <FormLabel>Name</FormLabel>
-        <Input type="text" />
+      <VStack as="form" onSubmit={handleSubmit} gap={2}>
+        <FormControl>
+          <FormLabel>Name</FormLabel>
+          <Input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </FormControl>
+        <FormControl>
+          <FormLabel>Email address</FormLabel>
+          <Input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </FormControl>
 
-        <FormLabel>Email address</FormLabel>
-        <Input type="email" />
+        <FormControl>
+          <FormLabel>Password</FormLabel>
+          <Input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </FormControl>
 
-        <FormLabel>Password</FormLabel>
-        <Input type="password" />
+        <FormControl>
+          <FormLabel>Phone</FormLabel>
+          <Input
+            type="tel"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+        </FormControl>
 
-        <FormLabel>Phone</FormLabel>
-        <Input type="Tel" />
-
-        <FormLabel>Address</FormLabel>
-        <Input type="text" />
-      </FormControl>
-      <Button my={5}>Register</Button>
+        <FormControl>
+          <FormLabel>Address</FormLabel>
+          <Input
+            type="text"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </FormControl>
+        <FormControl>
+          <Input type={"submit"} />
+        </FormControl>
+      </VStack>
     </Box>
   );
 };
