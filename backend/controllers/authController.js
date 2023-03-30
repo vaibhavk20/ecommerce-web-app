@@ -9,19 +9,19 @@ export const registerController = async (req, res) => {
     console.log(name, email, password, phone, address);
     //validation
     if (!name) {
-      return res.send({ error: "name is required" });
+      return res.send({ message: "name is required" });
     }
     if (!email) {
-      return res.send({ error: "email is required" });
+      return res.send({ message: "email is required" });
     }
     if (!password) {
-      return res.send({ error: "password is required" });
+      return res.send({ message: "password is required" });
     }
     if (!phone) {
-      return res.send({ error: "phone is required" });
+      return res.send({ message: "phone is required" });
     }
     if (!address) {
-      return res.send({ error: "address is required" });
+      return res.send({ message: "address is required" });
     }
 
     // existing user
@@ -30,7 +30,7 @@ export const registerController = async (req, res) => {
     // existing user
     if (existingUser) {
       return res.status(200).send({
-        success: true,
+        success: false,
         message: "Already Register please login",
       });
     }
@@ -118,7 +118,7 @@ export const loginController = async (req, res) => {
   }
 };
 
-// test 
-export const testMiddleware = async(req,res)=>{
-    res.send("private route data here")
-}
+// test
+export const testMiddleware = async (req, res) => {
+  res.send("private route data here");
+};

@@ -10,12 +10,14 @@ import {
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../context/auth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const toast = useToast();
   const navigate = useNavigate();
+  const [auth, setAuth] = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,6 +29,11 @@ const Login = () => {
       });
       console.log(res.data);
       if (res.data.success) {
+        setAuth({
+          ...auth,
+          user: res.data.user,
+          token: res.data.token,
+        });
         toast({
           title: res.data.message,
           status: "success",
@@ -34,6 +41,8 @@ const Login = () => {
           position: "top",
           duration: 9000,
         });
+
+        localStorage.setItem("localAuth", JSON.stringify(res.data));
         navigate("/");
       } else {
         toast({
@@ -50,7 +59,7 @@ const Login = () => {
 
     console.log(email, password);
   };
-
+  // console.log(auth)
   return (
     <Box
       w={{ sm: "100%", md: "80%", lg: "40%" }}

@@ -7,14 +7,35 @@ import {
   Button,
   IconButton,
   Heading,
+  useToast,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../context/auth";
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const isDark = colorMode === "dark";
   const [display, changeDisplay] = useState("none");
+  const [auth, setAuth] = useAuth();
+  const toast = useToast();
+
+  const handleLogout = () => {
+    setAuth({
+      ...auth,
+      user: null,
+      token: "",
+    });
+    localStorage.removeItem("localAuth");
+    toast({
+      title: "Logout successfully",
+      status: "success",
+      isClosable: true,
+      position: "top",
+      duration: 9000,
+    });
+  };
+
   return (
     <Flex
       border={"1px solid"}
@@ -46,16 +67,58 @@ const Navbar = () => {
               Contact
             </Button>
           </NavLink>
-          <NavLink to="/register">
-            <Button as="a" variant="ghost" aria-label="About" my={5} w="100%">
-              Register
-            </Button>
-          </NavLink>
-          <NavLink to="/login">
-            <Button as="a" variant="ghost" aria-label="About" my={5} w="100%">
-              Login
-            </Button>
-          </NavLink>
+
+          {!auth.user ? (
+            <>
+              <NavLink to="/register">
+                <Button
+                  as="a"
+                  variant="ghost"
+                  aria-label="About"
+                  my={5}
+                  w="100%"
+                >
+                  Register
+                </Button>
+              </NavLink>
+              <NavLink to="/login">
+                <Button
+                  as="a"
+                  variant="ghost"
+                  aria-label="About"
+                  my={5}
+                  w="100%"
+                >
+                  Login
+                </Button>
+              </NavLink>
+            </>
+          ) : (
+            <>
+              <NavLink to="/register">
+                <Button
+                  as="a"
+                  variant="ghost"
+                  aria-label="About"
+                  my={5}
+                  w="100%"
+                >
+                  Register
+                </Button>
+              </NavLink>
+              <NavLink to="/login" onClick={handleLogout}>
+                <Button
+                  as="a"
+                  variant="ghost"
+                  aria-label="About"
+                  my={5}
+                  w="100%"
+                >
+                  Logout
+                </Button>
+              </NavLink>
+            </>
+          )}
         </Flex>
         <Switch color="green" isChecked={isDark} onChange={toggleColorMode} />
 
@@ -95,33 +158,74 @@ const Navbar = () => {
         </Flex>
 
         <Flex flexDir="column" align="center">
-          <NavLink to="/">
+          <NavLink to="/" onClick={() => changeDisplay("none")}>
             <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%">
               Home
             </Button>
           </NavLink>
 
-          <NavLink to="/about">
+          <NavLink to="/about" onClick={() => changeDisplay("none")}>
             <Button as="a" variant="ghost" aria-label="About" my={5} w="100%">
               About
             </Button>
           </NavLink>
 
-          <NavLink to="/contact">
+          <NavLink to="/contact" onClick={() => changeDisplay("none")}>
             <Button as="a" variant="ghost" aria-label="Contact" my={5} w="100%">
               Contact
             </Button>
           </NavLink>
-          <NavLink to="/register">
-            <Button as="a" variant="ghost" aria-label="About" my={5} w="100%">
-              Register
-            </Button>
-          </NavLink>
-          <NavLink to="/login">
-            <Button as="a" variant="ghost" aria-label="About" my={5} w="100%">
-              Login
-            </Button>
-          </NavLink>
+          {!auth.user ? (
+            <>
+              <NavLink to="/register" onClick={() => changeDisplay("none")}>
+                <Button
+                  as="a"
+                  variant="ghost"
+                  aria-label="About"
+                  my={5}
+                  w="100%"
+                >
+                  Register
+                </Button>
+              </NavLink>
+              <NavLink to="/login" onClick={() => changeDisplay("none")}>
+                <Button
+                  as="a"
+                  variant="ghost"
+                  aria-label="About"
+                  my={5}
+                  w="100%"
+                >
+                  Login
+                </Button>
+              </NavLink>
+            </>
+          ) : (
+            <>
+              <NavLink to="/register" onClick={() => changeDisplay("none")}>
+                <Button
+                  as="a"
+                  variant="ghost"
+                  aria-label="About"
+                  my={5}
+                  w="100%"
+                >
+                  Register
+                </Button>
+              </NavLink>
+              <NavLink to="/login" onClick={handleLogout}>
+                <Button
+                  as="a"
+                  variant="ghost"
+                  aria-label="About"
+                  my={5}
+                  w="100%"
+                >
+                  Logout
+                </Button>
+              </NavLink>
+            </>
+          )}
         </Flex>
       </Flex>
     </Flex>
