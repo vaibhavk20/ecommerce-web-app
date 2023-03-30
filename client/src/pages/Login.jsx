@@ -9,8 +9,9 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/auth";
+import Navbar from "../components/Navbar";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -18,6 +19,7 @@ const Login = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const [auth, setAuth] = useAuth();
+  const location = useLocation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,7 +45,7 @@ const Login = () => {
         });
 
         localStorage.setItem("localAuth", JSON.stringify(res.data));
-        navigate("/");
+        navigate(location.state || "/");
       } else {
         toast({
           title: res.data.message,
@@ -61,38 +63,43 @@ const Login = () => {
   };
   // console.log(auth)
   return (
-    <Box
-      w={{ sm: "100%", md: "80%", lg: "40%" }}
-      m={"auto"}
-      alignItems={"center"}
-      px={20}
-    >
-      <Heading my={5}>Login</Heading>
-      <VStack as="form" onSubmit={handleSubmit} gap={2}>
-        <FormControl>
-          <FormLabel>Email address</FormLabel>
-          <Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </FormControl>
+    <>
+      <Box>
+        <Navbar />
+      </Box>
+      <Box
+        w={{ sm: "100%", md: "80%", lg: "40%" }}
+        m={"auto"}
+        alignItems={"center"}
+        px={20}
+      >
+        <Heading my={5}>Login</Heading>
+        <VStack as="form" onSubmit={handleSubmit} gap={2}>
+          <FormControl>
+            <FormLabel>Email address</FormLabel>
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </FormControl>
 
-        <FormControl>
-          <FormLabel>Password</FormLabel>
-          <Input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </FormControl>
+          <FormControl>
+            <FormLabel>Password</FormLabel>
+            <Input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </FormControl>
 
-        <FormControl>
-          <Input type={"submit"} />
-        </FormControl>
-        <Link to="/register">Create an account</Link>
-      </VStack>
-    </Box>
+          <FormControl>
+            <Input type={"submit"} />
+          </FormControl>
+          <Link to="/register">Create an account</Link>
+        </VStack>
+      </Box>
+    </>
   );
 };
 

@@ -42,6 +42,8 @@ const Navbar = () => {
       alignItems={"center"}
       justifyContent={"space-between"}
       px={10}
+      w={"100%"}
+      position="sticky"
     >
       <NavLink to="/">
         <Heading>MArt</Heading>

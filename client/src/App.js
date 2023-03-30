@@ -6,7 +6,7 @@ import AllRoutes from "./pages/AllRoutes";
 function App() {
   return (
     <Box>
-      <Navbar />
+      {/* <Navbar /> */}
       <AllRoutes />
     </Box>
   );
