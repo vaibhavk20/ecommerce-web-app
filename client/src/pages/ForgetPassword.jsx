@@ -1,41 +1,38 @@
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
-  Input,
   FormControl,
   FormLabel,
   Heading,
-  VStack,
+  Input,
   useToast,
+  VStack,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate, Link, useLocation } from "react-router-dom";
-import { useAuth } from "../context/auth";
 // import Navbar from "../components/Navbar";
 
-const Login = () => {
+const ForgetPassword = () => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [answer, setAnswer] = useState("");
   const toast = useToast();
   const navigate = useNavigate();
-  const [auth, setAuth] = useAuth();
-  const location = useLocation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      let res = await axios.post(`http://localhost:8080/api/v1/auth/login`, {
-        email,
-        password,
-      });
+      let res = await axios.post(
+        `http://localhost:8080/api/v1/auth/forget-password`,
+        {
+          email,
+          newPassword,
+          answer,
+        }
+      );
       console.log(res.data);
       if (res.data.success) {
-        setAuth({
-          ...auth,
-          user: res.data.user,
-          token: res.data.token,
-        });
         toast({
           title: res.data.message,
           status: "success",
@@ -44,8 +41,7 @@ const Login = () => {
           duration: 9000,
         });
 
-        localStorage.setItem("localAuth", JSON.stringify(res.data));
-        navigate(location.state || "/");
+        navigate("/login");
       } else {
         toast({
           title: res.data.message,
@@ -59,21 +55,17 @@ const Login = () => {
       console.log(error);
     }
 
-    console.log(email, password);
+    console.log(email, newPassword);
   };
-  // console.log(auth)
   return (
     <>
-      {/* <Box>
-        <Navbar />
-      </Box> */}
       <Box
         w={{ sm: "100%", md: "80%", lg: "40%" }}
         m={"auto"}
         alignItems={"center"}
         px={20}
       >
-        <Heading my={5}>Login</Heading>
+        <Heading my={5}>Rest Password</Heading>
         <VStack as="form" onSubmit={handleSubmit} gap={2}>
           <FormControl>
             <FormLabel>Email address</FormLabel>
@@ -85,23 +77,30 @@ const Login = () => {
           </FormControl>
 
           <FormControl>
-            <FormLabel>Password</FormLabel>
+            <FormLabel> New Password</FormLabel>
             <Input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>Answer</FormLabel>
+            <Input
+              type="text"
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
             />
           </FormControl>
 
           <FormControl>
             <Input type={"submit"} />
           </FormControl>
-          <Link to="/forget-password">Forget Password</Link>
-          <Link to="/register">Create an account</Link>
         </VStack>
       </Box>
     </>
   );
 };
 
-export default Login;
+export default ForgetPassword;

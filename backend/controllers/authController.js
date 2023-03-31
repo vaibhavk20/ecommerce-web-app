@@ -4,9 +4,9 @@ import JWT from "jsonwebtoken";
 
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password, phone, address } = req.body;
+    const { name, email, password, phone, address, answer } = req.body;
 
-    console.log(name, email, password, phone, address);
+    // console.log(name, email, password, phone, address,answer);
     //validation
     if (!name) {
       return res.send({ message: "name is required" });
@@ -22,6 +22,9 @@ export const registerController = async (req, res) => {
     }
     if (!address) {
       return res.send({ message: "address is required" });
+    }
+    if (!answer) {
+      return res.send({ message: "answwer is required" });
     }
 
     // existing user
@@ -44,6 +47,7 @@ export const registerController = async (req, res) => {
       password: hashedPassword,
       phone,
       address,
+      answer,
     }).save();
 
     res.status(201).send({
@@ -121,4 +125,45 @@ export const loginController = async (req, res) => {
 // test
 export const testMiddleware = async (req, res) => {
   res.send("private route data here");
+};
+
+export const forgetPasswordController = async (req, res) => {
+  try {
+    const { email, newPassword, answer } = req.body;
+
+    if (!email) {
+      return res.status(400).send({ message: "email is required" });
+    }
+    if (!newPassword) {
+      return res.status(400).send({ message: "New password is required" });
+    }
+    if (!answer) {
+      return res.status(400).send({ message: "Answer is required" });
+    }
+
+    //check
+    const user = await userModel.findOne({ email, answer });
+
+    //validation
+    if (!user) {
+      return res.status(404).send({
+        success: true,
+        message: "Wrong email or answer check again",
+      });
+    }
+    const hashed = await hashPassword(newPassword);
+    await userModel.findByIdAndUpdate(user._id, { password: hashed });
+
+    res.status(200).send({
+      success: true,
+      message: "Password Reset Successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Something went wrong",
+      error,
+    });
+  }
 };

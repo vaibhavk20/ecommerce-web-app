@@ -8,8 +8,12 @@ import {
   IconButton,
   Heading,
   useToast,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { HamburgerIcon, CloseIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../context/auth";
 
@@ -38,34 +42,34 @@ const Navbar = () => {
 
   return (
     <Flex
-      border={"1px solid"}
+      w={"100%"}
       alignItems={"center"}
       justifyContent={"space-between"}
-      px={10}
-      w={"100%"}
-      position="sticky"
+      px={{ sm: 0, md: 10, lg: 10 }}
+      border={"1px solid"}
+      // position="fixed"
     >
       <NavLink to="/">
         <Heading>MArt</Heading>
       </NavLink>
-      <Flex right="1rem" align="center">
+      <Flex alignItems={"center"}>
         {/* Desktop */}
         {/* position="fixed" top="1rem" */}
-        <Flex display={["none", "none", "flex", "flex"]}>
+        <Flex display={["none", "none", "flex", "flex"]} alignItems={"center"}>
           <NavLink to="/">
-            <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%">
+            <Button variant="ghost" aria-label="Home" my={5} w="100%">
               Home
             </Button>
           </NavLink>
 
           <NavLink to="/about">
-            <Button as="a" variant="ghost" aria-label="About" my={5} w="100%">
+            <Button variant="ghost" aria-label="About" my={5} w="100%">
               About
             </Button>
           </NavLink>
 
           <NavLink to="/contact">
-            <Button as="a" variant="ghost" aria-label="Contact" my={5} w="100%">
+            <Button variant="ghost" aria-label="Contact" my={5} w="100%">
               Contact
             </Button>
           </NavLink>
@@ -97,7 +101,27 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <NavLink to="/register">
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  colorScheme="orange"
+                  rightIcon={<ChevronDownIcon />}
+                  mx={5}
+                >
+                  {auth?.user?.name}
+                </MenuButton>
+                <MenuList>
+                  <NavLink to="/dashboard">
+                    <MenuItem>Dashboard</MenuItem>
+                  </NavLink>
+
+                  <NavLink to="/login" onClick={handleLogout}>
+                    <MenuItem>Logout</MenuItem>
+                  </NavLink>
+                </MenuList>
+              </Menu>
+
+              {/* <NavLink to="/dashboard">
                 <Button
                   as="a"
                   variant="ghost"
@@ -105,9 +129,10 @@ const Navbar = () => {
                   my={5}
                   w="100%"
                 >
-                  Register
+                  Dashboard
                 </Button>
               </NavLink>
+
               <NavLink to="/login" onClick={handleLogout}>
                 <Button
                   as="a"
@@ -118,7 +143,7 @@ const Navbar = () => {
                 >
                   Logout
                 </Button>
-              </NavLink>
+              </NavLink> */}
             </>
           )}
         </Flex>
@@ -136,6 +161,7 @@ const Navbar = () => {
       </Flex>
 
       {/* Mobile Content */}
+
       <Flex
         w="100vw"
         display={display}
@@ -161,71 +187,60 @@ const Navbar = () => {
 
         <Flex flexDir="column" align="center">
           <NavLink to="/" onClick={() => changeDisplay("none")}>
-            <Button as="a" variant="ghost" aria-label="Home" my={5} w="100%">
+            <Button variant="ghost" aria-label="Home" my={5} w="100%">
               Home
             </Button>
           </NavLink>
 
           <NavLink to="/about" onClick={() => changeDisplay("none")}>
-            <Button as="a" variant="ghost" aria-label="About" my={5} w="100%">
+            <Button variant="ghost" aria-label="About" my={5} w="100%">
               About
             </Button>
           </NavLink>
 
           <NavLink to="/contact" onClick={() => changeDisplay("none")}>
-            <Button as="a" variant="ghost" aria-label="Contact" my={5} w="100%">
+            <Button variant="ghost" aria-label="Contact" my={5} w="100%">
               Contact
             </Button>
           </NavLink>
+
           {!auth.user ? (
             <>
               <NavLink to="/register" onClick={() => changeDisplay("none")}>
-                <Button
-                  as="a"
-                  variant="ghost"
-                  aria-label="About"
-                  my={5}
-                  w="100%"
-                >
+                <Button variant="ghost" aria-label="Register" my={5} w="100%">
                   Register
                 </Button>
               </NavLink>
               <NavLink to="/login" onClick={() => changeDisplay("none")}>
-                <Button
-                  as="a"
-                  variant="ghost"
-                  aria-label="About"
-                  my={5}
-                  w="100%"
-                >
+                <Button variant="ghost" aria-label="Login" my={5} w="100%">
                   Login
                 </Button>
               </NavLink>
             </>
           ) : (
             <>
-              <NavLink to="/register" onClick={() => changeDisplay("none")}>
-                <Button
-                  as="a"
-                  variant="ghost"
-                  aria-label="About"
-                  my={5}
-                  w="100%"
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  colorScheme="orange"
+                  rightIcon={<ChevronDownIcon />}
+                  mx={5}
                 >
-                  Register
-                </Button>
-              </NavLink>
-              <NavLink to="/login" onClick={handleLogout}>
-                <Button
-                  as="a"
-                  variant="ghost"
-                  aria-label="About"
-                  my={5}
-                  w="100%"
-                >
-                  Logout
-                </Button>
-              </NavLink>
+                  {auth?.user?.name}
+                </MenuButton>
+                <MenuList>
+                  <NavLink
+                    to="/dashboard"
+                    onClick={() => changeDisplay("none")}
+                  >
+                    <MenuItem>Dashboard</MenuItem>
+                  </NavLink>
+
+                  <NavLink to="/login" onClick={handleLogout}>
+                    <MenuItem>Logout</MenuItem>
+                  </NavLink>
+                </MenuList>
+              </Menu>
             </>
           )}
         </Flex>

@@ -1,13 +1,13 @@
-import { Box, Heading } from "@chakra-ui/react";
+import {  Heading } from "@chakra-ui/react";
 
-import Navbar from "../../components/Navbar";
+// import Navbar from "../../components/Navbar";
 
 const Dashboard = () => {
   return (
     <>
-      <Box>
+      {/* <Box>
         <Navbar />
-      </Box>
+      </Box> */}
       <Heading>dashboard</Heading>
     </>
   );

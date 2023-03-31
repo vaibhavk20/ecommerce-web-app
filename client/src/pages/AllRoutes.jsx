@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import PrivateRoute from "../Routes/Private";
 import About from "./About";
 import Contact from "./Contact";
+import ForgetPassword from "./ForgetPassword";
 import Home from "./Home";
 import Login from "./Login";
 import PageNotFound from "./PageNotFound";
@@ -19,6 +20,7 @@ const AllRoutes = () => {
       <Route path="/policy" element={<Policy />}></Route>
       <Route path="/register" element={<Register />}></Route>
       <Route path="/login" element={<Login />}></Route>
+      <Route path="/forget-password" element={<ForgetPassword />}></Route>
       <Route path="/dashboard" element={<PrivateRoute />}>
         <Route path="/dashboard" element={<Dashboard />} />
       </Route>

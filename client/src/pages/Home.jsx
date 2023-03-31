@@ -1,15 +1,15 @@
-import { Box } from "@chakra-ui/react";
+// import { Box } from "@chakra-ui/react";
 import React from "react";
-import Navbar from "../components/Navbar";
+// import Navbar from "../components/Navbar";
 // import { useAuth } from '../context/auth'
 
 const Home = () => {
   // const [auth,setAuth] = useAuth()
   return (
     <>
-      <Box>
+      {/* <Box>
         <Navbar />
-      </Box>
+      </Box> */}
       <h1>ecommerce app</h1>
       {/* <pre>{JSON.stringify(auth,null,4)}</pre> */}
     </>

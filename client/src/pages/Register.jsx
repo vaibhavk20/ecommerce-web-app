@@ -10,7 +10,7 @@ import {
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import Navbar from "../components/Navbar";
+
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -18,6 +18,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [answer, setAnswer] = useState("");
   const toast = useToast();
   const navigate = useNavigate();
 
@@ -30,6 +31,7 @@ const Register = () => {
         email,
         password,
         phone,
+        answer,
         address,
       });
       // console.log(res.data);
@@ -58,9 +60,9 @@ const Register = () => {
 
   return (
     <>
-      <Box>
+      {/* <Box>
         <Navbar />
-      </Box>
+      </Box> */}
 
       <Box
         w={{ sm: "100%", md: "80%", lg: "40%" }}
@@ -94,6 +96,15 @@ const Register = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+            />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>Secure Quetion</FormLabel>
+            <Input
+              type="text"
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
             />
           </FormControl>
 
