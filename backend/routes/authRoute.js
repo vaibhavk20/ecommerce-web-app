@@ -24,8 +24,13 @@ router.post("/forget-password", forgetPasswordController);
 //test
 router.get("/test", requireSignIn, isAdmin, testMiddleware);
 
-// protected route auth
+// protected uset route auth
 router.get("/user-auth", requireSignIn, (req, res) => {
+  res.status(200).send({ ok: true });
+});
+
+// admin route 
+router.get("/admin-auth", requireSignIn, isAdmin, (req, res) => {
   res.status(200).send({ ok: true });
 });
 

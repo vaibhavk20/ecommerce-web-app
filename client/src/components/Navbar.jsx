@@ -111,7 +111,11 @@ const Navbar = () => {
                   {auth?.user?.name}
                 </MenuButton>
                 <MenuList>
-                  <NavLink to="/dashboard">
+                  <NavLink
+                    to={`/dashboard/${
+                      auth?.user?.role === 1 ? "admin" : "user"
+                    }`}
+                  >
                     <MenuItem>Dashboard</MenuItem>
                   </NavLink>
 

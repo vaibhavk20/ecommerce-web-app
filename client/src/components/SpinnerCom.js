@@ -2,7 +2,7 @@ import { Box, Spinner, Text } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const SpinnerCom = () => {
+const SpinnerCom = ({ path = "login" }) => {
   const [count, setCount] = useState(3);
   const navigate = useNavigate();
   const location = useLocation();
@@ -12,7 +12,7 @@ const SpinnerCom = () => {
       setCount((prev) => prev - 1);
     }, 1000);
     count === 0 &&
-      navigate("/login", {
+      navigate(`/${path}`, {
         state: location.pathname,
       });
 
@@ -20,7 +20,7 @@ const SpinnerCom = () => {
     return () => {
       clearInterval(interval);
     };
-  }, [count, navigate, location]);
+  }, [count, navigate, location, path]);
 
   return (
     <Box
