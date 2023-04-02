@@ -46,8 +46,11 @@ const Navbar = () => {
       alignItems={"center"}
       justifyContent={"space-between"}
       px={{ sm: 0, md: 10, lg: 10 }}
-      border={"1px solid"}
-      // position="fixed"
+      border={"1px solid blue"}
+      position="sticky"
+      top="0px"
+      bg={"gray.400"}
+      zIndex={1000}
     >
       <NavLink to="/">
         <Heading>MArt</Heading>
@@ -169,7 +172,7 @@ const Navbar = () => {
       <Flex
         w="100vw"
         display={display}
-        bgColor="gray.50"
+        bgColor="gray.400"
         zIndex={20}
         h="100vh"
         pos="fixed"
@@ -211,12 +214,24 @@ const Navbar = () => {
           {!auth.user ? (
             <>
               <NavLink to="/register" onClick={() => changeDisplay("none")}>
-                <Button variant="ghost" aria-label="Register" my={5} w="100%">
+                <Button
+                  as="a"
+                  variant="ghost"
+                  aria-label="About"
+                  my={5}
+                  w="100%"
+                >
                   Register
                 </Button>
               </NavLink>
               <NavLink to="/login" onClick={() => changeDisplay("none")}>
-                <Button variant="ghost" aria-label="Login" my={5} w="100%">
+                <Button
+                  as="a"
+                  variant="ghost"
+                  aria-label="About"
+                  my={5}
+                  w="100%"
+                >
                   Login
                 </Button>
               </NavLink>
@@ -234,14 +249,18 @@ const Navbar = () => {
                 </MenuButton>
                 <MenuList>
                   <NavLink
-                    to="/dashboard"
+                    to={`/dashboard/${
+                      auth?.user?.role === 1 ? "admin" : "user"
+                    }`}
                     onClick={() => changeDisplay("none")}
                   >
                     <MenuItem>Dashboard</MenuItem>
                   </NavLink>
 
                   <NavLink to="/login" onClick={handleLogout}>
-                    <MenuItem>Logout</MenuItem>
+                    <MenuItem onClick={() => changeDisplay("none")}>
+                      Logout
+                    </MenuItem>
                   </NavLink>
                 </MenuList>
               </Menu>

@@ -12,6 +12,11 @@ import Register from "./Register";
 import Dashboard from "./user/Dashboard.js";
 import AdminRoute from "../Routes/AdminRoute";
 import AdminDashboard from "./admin/AdminDashboard";
+import CreateProduct from "./admin/CreateProduct";
+import CreateCategory from "./admin/CreateCategory";
+import Users from "./admin/Users";
+import Profile from "./user/Profile";
+import Orders from "./user/Orders";
 
 const AllRoutes = () => {
   return (
@@ -19,9 +24,14 @@ const AllRoutes = () => {
       <Route path="/" element={<Home />}></Route>
       <Route path="/dashboard" element={<PrivateRoute />}>
         <Route path="user" element={<Dashboard />} />
+        <Route path="user/profile" element={<Profile />} />
+        <Route path="user/orders" element={<Orders />} />
       </Route>
       <Route path="/dashboard" element={<AdminRoute />}>
         <Route path="admin" element={<AdminDashboard />} />
+        <Route path="admin/create-category" element={<CreateCategory />} />
+        <Route path="admin/create-product" element={<CreateProduct />} />
+        <Route path="admin/users" element={<Users />} />
       </Route>
       <Route path="/about" element={<About />}></Route>
       <Route path="/contact" element={<Contact />}></Route>
