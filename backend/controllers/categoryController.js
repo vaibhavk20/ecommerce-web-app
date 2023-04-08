@@ -1,4 +1,4 @@
-import categoryModel from "./../models/categoruModel.js";
+import categoryModel from "./../models/categoryModel.js";
 import slugify from "slugify";
 
 // create category
