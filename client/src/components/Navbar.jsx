@@ -127,30 +127,6 @@ const Navbar = () => {
                   </NavLink>
                 </MenuList>
               </Menu>
-
-              {/* <NavLink to="/dashboard">
-                <Button
-                  as="a"
-                  variant="ghost"
-                  aria-label="About"
-                  my={5}
-                  w="100%"
-                >
-                  Dashboard
-                </Button>
-              </NavLink>
-
-              <NavLink to="/login" onClick={handleLogout}>
-                <Button
-                  as="a"
-                  variant="ghost"
-                  aria-label="About"
-                  my={5}
-                  w="100%"
-                >
-                  Logout
-                </Button>
-              </NavLink> */}
             </>
           )}
         </Flex>

@@ -6,7 +6,7 @@ const UserMenu = () => {
   return (
     <Box>
       <VStack align={"center"}>
-        <Heading>Admin Panel</Heading>
+        <Heading>User Panel</Heading>
         <NavLink to={"/dashboard/user/profile"}>
           <Button>Profile</Button>
         </NavLink>
