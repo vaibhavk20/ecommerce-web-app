@@ -4,9 +4,9 @@ import React from "react";
 const Home = () => {
   // const [auth,setAuth] = useAuth()
   return (
-    <>
+    <Box>
       <Heading>ecommerce app</Heading>
-    </>
+    </Box>
   );
 };
 
