@@ -17,6 +17,7 @@ import CreateCategory from "./admin/CreateCategory";
 import Users from "./admin/Users";
 import Profile from "./user/Profile";
 import Orders from "./user/Orders";
+import Products from "./admin/Products";
 
 const AllRoutes = () => {
   return (
@@ -32,6 +33,7 @@ const AllRoutes = () => {
         <Route path="admin/create-category" element={<CreateCategory />} />
         <Route path="admin/create-product" element={<CreateProduct />} />
         <Route path="admin/users" element={<Users />} />
+        <Route path="admin/products" element={<Products />} />
       </Route>
       <Route path="/about" element={<About />}></Route>
       <Route path="/contact" element={<Contact />}></Route>

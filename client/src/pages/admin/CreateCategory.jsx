@@ -86,10 +86,10 @@ const CreateCategory = () => {
     } catch (error) {
       console.log(error);
       toast({
-        title: "Account created.",
-        description: "We've created your account for you.",
-        status: "success",
-        duration: 9000,
+        title: `Something went wrong in getting catgeory`,
+        status: "error",
+        duration: 5000,
+        position: "top",
         isClosable: true,
       });
     }
