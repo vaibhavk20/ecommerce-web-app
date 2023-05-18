@@ -13,6 +13,9 @@ const AdminList = () => {
         <NavLink to={"/dashboard/admin/create-product"}>
           <Button>Create Product</Button>
         </NavLink>
+        <NavLink to={"/dashboard/admin/products"}>
+          <Button>Products</Button>
+        </NavLink>
         <NavLink to={"/dashboard/admin/users"}>
           <Button>Users</Button>
         </NavLink>

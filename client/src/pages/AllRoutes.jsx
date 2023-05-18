@@ -18,6 +18,7 @@ import Users from "./admin/Users";
 import Profile from "./user/Profile";
 import Orders from "./user/Orders";
 import Products from "./admin/Products";
+import UpdateProduct from "./admin/UpdateProduct";
 
 const AllRoutes = () => {
   return (
@@ -32,6 +33,7 @@ const AllRoutes = () => {
         <Route path="admin" element={<AdminDashboard />} />
         <Route path="admin/create-category" element={<CreateCategory />} />
         <Route path="admin/create-product" element={<CreateProduct />} />
+        <Route path="admin/product/:slug" element={<UpdateProduct />} />
         <Route path="admin/users" element={<Users />} />
         <Route path="admin/products" element={<Products />} />
       </Route>

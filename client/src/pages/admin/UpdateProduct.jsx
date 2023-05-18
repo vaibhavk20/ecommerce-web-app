@@ -15,10 +15,10 @@ import {
 import AdminMenu from "../../components/AdminMenu";
 import { useAuth } from "../../context/auth";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const CreateProduct = () => {
-  const [auth] = useAuth();
+const UpdateProduct = () => {
+  const params = useParams();
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState([]);
   const [photo, setPhoto] = useState("");
@@ -27,8 +27,33 @@ const CreateProduct = () => {
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [shipping, setShipping] = useState("");
+  const [id, setId] = useState("");
+
   const toast = useToast();
   const navigate = useNavigate();
+
+  //get single product
+  const getSingleProduct = async () => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:8080/api/v1/product/get-product/${params.slug}`
+      );
+      //   console.log(data);
+      setName(data.product.name);
+      setId(data.product._id);
+      setDescription(data.product.description);
+      setPrice(data.product.price);
+      setQuantity(data.product.quantity);
+      setShipping(data.product.shipping);
+      setCategory(data.product.category._id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getSingleProduct();
+  }, []);
 
   //get all category
   const getAllCategory = async () => {
@@ -55,9 +80,8 @@ const CreateProduct = () => {
     getAllCategory();
   }, []);
 
-  // console.log(photo);
-  //create product function
-  const handleCreate = async (e) => {
+  //update product function
+  const handleUpdate = async (e) => {
     e.preventDefault();
     try {
       const productData = new FormData();
@@ -65,46 +89,43 @@ const CreateProduct = () => {
       productData.append("description", description);
       productData.append("price", price);
       productData.append("quantity", quantity);
-      productData.append("photo", photo);
+      photo && productData.append("photo", photo);
+      //   productData.append("photo", photo);
       productData.append("category", category);
       productData.append("shipping", shipping);
 
-      const { data } = await axios.post(
-        "http://localhost:8080/api/v1/product/create-product",
+      const { data } = await axios.put(
+        `http://localhost:8080/api/v1/product/update-product/${id}`,
         productData
       );
 
       if (data?.success) {
-        // toast({
-        //   title: `Product Created Successfully`,
-        //   status: "Sucess",
-        //   duration: 5000,
-        //   position: "top",
-        //   isClosable: true,
-        // });
         navigate("/dashboard/admin/products");
       } else {
-        // toast({
-        //   title: "Error in create an product",
-        //   status: "error",
-        //   duration: 5000,
-        //   position: "top",
-        //   isClosable: true,
-        // });
         console.log("Error in creating product");
       }
     } catch (error) {
       console.log(error);
-      toast({
-        title: `Something went wrong`,
-        status: "Sucess",
-        duration: 5000,
-        position: "top",
-        isClosable: true,
-      });
     }
   };
 
+  //delete a product
+  const handleDelete = async () => {
+    try {
+      let answer = window.prompt(
+        "Are You Sure want to delete this product ?(y/n) "
+      );
+      if (!answer) return;
+      const { data } = await axios.delete(
+        `http://localhost:8080/api/v1/product/delete-product/${id}`
+      );
+      if (data.success) {
+        navigate("/dashboard/admin/products");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <Box display={"flex"} gap={5} flexDirection={["column", "column", "row"]}>
@@ -117,7 +138,7 @@ const CreateProduct = () => {
           p={5}
         >
           <Box>
-            <Heading>Admin Name :{auth?.user?.name}</Heading>
+            <Heading>Update Products</Heading>
           </Box>
           <Box>
             {/* category */}
@@ -125,6 +146,7 @@ const CreateProduct = () => {
               <Select
                 placeholder="Select Category"
                 onChange={(e) => setCategory(e.target.value)}
+                value={category}
               >
                 {categories?.map((c) => (
                   <option key={c._id} value={c._id}>
@@ -150,7 +172,7 @@ const CreateProduct = () => {
                 />
               </Text>
               {/* preview */}
-              {photo && (
+              {photo ? (
                 <Box p={5}>
                   <Image
                     src={URL.createObjectURL(photo)}
@@ -158,10 +180,18 @@ const CreateProduct = () => {
                     height={"200px"}
                   />
                 </Box>
+              ) : (
+                <Box p={5}>
+                  <Image
+                    src={`http://localhost:8080/api/v1/product/product-photo/${id}`}
+                    alt="product_photo"
+                    height={"200px"}
+                  />
+                </Box>
               )}
             </Flex>
 
-            {/*  */}
+            {/* name */}
             <Box mt={3}>
               <Input
                 type="text"
@@ -198,7 +228,8 @@ const CreateProduct = () => {
 
             <Box mt={3}>
               <Select
-                placeholder="Select Shipping "
+                placeholder="Select Shipping"
+                // value={shipping ? "Yes" : "No"}
                 onChange={(e) => {
                   setShipping(e.target.value);
                 }}
@@ -209,7 +240,10 @@ const CreateProduct = () => {
             </Box>
 
             <Box mt={3}>
-              <Button onClick={handleCreate}>CREATE PRODUCT </Button>
+              <Button onClick={handleUpdate}>UPDATE PRODUCT</Button>
+              <Button bg={"red.500"} color={"white"} onClick={handleDelete}>
+                DELETE PRODUCT
+              </Button>
             </Box>
           </Box>
         </Box>
@@ -218,4 +252,4 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default UpdateProduct;
